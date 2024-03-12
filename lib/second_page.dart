@@ -8,69 +8,72 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  String _draggableWord = 'Drag Me!';
-  bool _wordDropped = false;
-  Offset _dragOffset = Offset(0, 0); // To track the position of the draggable
+  List<String> wordBubbles = [
+    "Polyps",
+    "Skeleton",
+    "Reef Flat",
+    "Reef Crest",
+    "Buttress Zone",
+    "Seaward Slope",
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        // Use Stack to overlay widgets
         children: [
           Center(
-            child: DragTarget<String>(
-              onWillAccept: (data) => true,
-              onAccept: (data) {
-                setState(() {
-                  _wordDropped = true;
-                });
-              },
-              builder: (context, candidateData, rejectedData) => Container(
-                width: 200,
-                height: 200,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Center(
-                  child: Text(
-                    _wordDropped ? _draggableWord : 'Game Bubble',
-                    style: TextStyle(color: Colors.amber),
-                  ),
+            child: Container(
+              width: 950,
+              height: 500,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                image: DecorationImage(
+                  image: AssetImage(
+                      '../images/reef_pic.jpg'), // You'll replace this with the correct path
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
-          Positioned(
-            left: _dragOffset.dx,
-            top: _dragOffset.dy,
-            child: Draggable<String>(
-              data: _draggableWord,
-              child: Container(
-                width: 200,
-                height: 200,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(color: Colors.purple),
-                child: Text(
-                  'Word Bubble',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.amber),
-                ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: wordBubbles.map((word) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Draggable<String>(
+                      data: word,
+                      feedback: Material(
+                        child: Text(
+                          word,
+                          style: TextStyle(color: Colors.amber, fontSize: 24),
+                        ),
+                        elevation: 4.0,
+                      ),
+                      childWhenDragging: Container(),
+                      onDragEnd: (dragDetails) {
+                        // This can be left empty since the bubbles are not meant to be repositioned
+                      },
+                      child: Container(
+                        width: 200,
+                        height: 50,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(color: Colors.purple),
+                        child: Text(
+                          word,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.amber),
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-              feedback: Material(
-                child: Text(
-                  _draggableWord,
-                  style: TextStyle(color: Colors.amber, fontSize: 24),
-                ),
-                elevation: 4.0,
-              ),
-              childWhenDragging: Container(), // Empty container when dragging
-              onDragEnd: (dragDetails) {
-                setState(() {
-                  _dragOffset = dragDetails.offset;
-                  _wordDropped =
-                      false; // Reset this if you want the word to be draggable again after dropping
-                });
-              },
             ),
           ),
         ],
