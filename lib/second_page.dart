@@ -15,7 +15,8 @@ class _SecondPageState extends State<SecondPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack( // Use Stack to overlay widgets
+      body: Stack(
+        // Use Stack to overlay widgets
         children: [
           Center(
             child: DragTarget<String>(
@@ -30,9 +31,11 @@ class _SecondPageState extends State<SecondPage> {
                 height: 200,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(color: Colors.blue),
-                child: Text(
-                  _wordDropped ? _draggableWord : 'Game Bubble',
-                  style: TextStyle(color: Colors.amber),
+                child: Center(
+                  child: Text(
+                    _wordDropped ? _draggableWord : 'Game Bubble',
+                    style: TextStyle(color: Colors.amber),
+                  ),
                 ),
               ),
             ),
@@ -64,7 +67,8 @@ class _SecondPageState extends State<SecondPage> {
               onDragEnd: (dragDetails) {
                 setState(() {
                   _dragOffset = dragDetails.offset;
-                  _wordDropped = false; // Reset this if you want the word to be draggable again after dropping
+                  _wordDropped =
+                      false; // Reset this if you want the word to be draggable again after dropping
                 });
               },
             ),
