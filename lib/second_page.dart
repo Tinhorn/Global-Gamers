@@ -30,7 +30,7 @@ class _SecondPageState extends State<SecondPage> {
               decoration: BoxDecoration(
                 color: Colors.blue,
                 image: DecorationImage(
-                  image: AssetImage('../images/reef_pic.jpg'), // You'll replace this with the correct path
+                  image: AssetImage('../images/reef_pic_t.png'), // You'll replace this with the correct path
                   fit: BoxFit.cover,
                 ),
               ),
